@@ -33,13 +33,22 @@ bool serialReadCommand(char* buffer, size_t size)
 {
     if (Serial.available() > 0)
     {
-        // use scanf from STDIO library
-        // read until newline or carriage return, max 19 chars
-        if (scanf("%19[^\r\n]", buffer) == 1)
+        // use getchar from STDIO library
+        int i = 0;
+        int c;
+        
+        while ((c = getchar()) != '\n' && c != '\r' && c != EOF && i < (int)(size - 1))
         {
-            // clear input buffer
-            while (getchar() != '\n');
-            
+            buffer[i++] = (char)c;
+        }
+        buffer[i] = '\0';
+        
+        // consume remaining chars if any
+        if (c == '\r')
+            getchar(); // consume \n after \r
+        
+        if (i > 0)
+        {
             // echo back
             printf(">> %s\n", buffer);
             return true;
