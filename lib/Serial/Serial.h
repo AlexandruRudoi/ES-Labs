@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <stdio.h>
+#include <string.h>
 
 void serialInit(unsigned long baudRate);
 bool serialReadCommand(char* buffer, size_t size);

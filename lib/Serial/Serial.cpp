@@ -1,21 +1,29 @@
 #include "Serial.h"
 
-// redirect printf to serial
+// write char to serial
 static int serialPutc(char c, FILE *stream)
 {
     Serial.write(c);
     return 0;
 }
 
-static FILE serialStdout;
+// read char from serial
+static int serialGetc(FILE *stream)
+{
+    while (Serial.available() == 0);
+    return Serial.read();
+}
+
+static FILE serialStream;
 
 void serialInit(unsigned long baudRate)
 {
     Serial.begin(baudRate);
 
-    // setup STDIO to use serial
-    fdev_setup_stream(&serialStdout, serialPutc, NULL, _FDEV_SETUP_WRITE);
-    stdout = &serialStdout;
+    // setup STDIO for read and write
+    fdev_setup_stream(&serialStream, serialPutc, serialGetc, _FDEV_SETUP_RW);
+    stdout = &serialStream;
+    stdin = &serialStream;
 
     serialPrint("System Ready!");
     serialPrint("Send 'led on' or 'led off'");
@@ -25,22 +33,17 @@ bool serialReadCommand(char* buffer, size_t size)
 {
     if (Serial.available() > 0)
     {
-        size_t n = Serial.readBytesUntil('\n', buffer, size - 1);
-        buffer[n] = '\0';
-
-        // echo back
-        printf(">> %s\n", buffer);
-
-        // remove carriage return if present
-        for (size_t i = 0; i < n; i++)
+        // use scanf from STDIO library
+        // read until newline or carriage return, max 19 chars
+        if (scanf("%19[^\r\n]", buffer) == 1)
         {
-            if (buffer[i] == '\r')
-            {
-                buffer[i] = '\0';
-                break;
-            }
+            // clear input buffer
+            while (getchar() != '\n');
+            
+            // echo back
+            printf(">> %s\n", buffer);
+            return true;
         }
-        return true;
     }
     return false;
 }
