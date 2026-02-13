@@ -1,18 +1,39 @@
 #include <Arduino.h>
+#include <string.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include <Led.h>
+#include <Serial.h>
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+#define LED_PIN 13
+#define CMD_BUFFER_SIZE 20
+
+Led led(LED_PIN);
+
+void setup()
+{
+  serialInit(9600);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+void loop()
+{
+  char command[CMD_BUFFER_SIZE];
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  if (serialReadCommand(command, sizeof(command)))
+  {
+
+    if (strcmp(command, "led on") == 0)
+    {
+      led.turnOn();
+      serialPrint("LED is now ON");
+    }
+    else if (strcmp(command, "led off") == 0)
+    {
+      led.turnOff();
+      serialPrint("LED is now OFF");
+    }
+    else
+    {
+      serialPrint("Invalid command! Use 'led on' or 'led off'");
+    }
+  }
 }
