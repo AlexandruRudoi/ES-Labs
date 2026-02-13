@@ -1,5 +1,41 @@
 #include "Serial.h"
 
+// remove extra spaces from string
+void trimSpaces(char* str)
+{
+    int i = 0, j = 0;
+    bool lastWasSpace = true;
+    
+    // skip leading spaces
+    while (str[i] && isspace(str[i]))
+        i++;
+    
+    // copy with single spaces
+    while (str[i])
+    {
+        if (isspace(str[i]))
+        {
+            if (!lastWasSpace)
+            {
+                str[j++] = ' ';
+                lastWasSpace = true;
+            }
+        }
+        else
+        {
+            str[j++] = str[i];
+            lastWasSpace = false;
+        }
+        i++;
+    }
+    
+    // remove trailing space
+    if (j > 0 && str[j-1] == ' ')
+        j--;
+    
+    str[j] = '\0';
+}
+
 // write char to serial
 static int serialPutc(char c, FILE *stream)
 {
@@ -49,6 +85,9 @@ bool serialReadCommand(char* buffer, size_t size)
         
         if (i > 0)
         {
+            // trim extra spaces
+            trimSpaces(buffer);
+            
             // echo back
             printf(">> %s\n", buffer);
             return true;
