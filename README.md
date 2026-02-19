@@ -9,7 +9,11 @@ LED control via serial commands using STDIO library.
 - **Hardware**: Arduino Uno, LED, 220Ω resistor
 - **Commands**: `led on`, `led off`
 - **Status**: Completed
-
+### [Lab 1.2 - STDIO LCD + Keypad](docs/Lab1.2.md)
+Code lock using 4x4 keypad input and LCD display via STDIO library.
+- **Hardware**: Arduino Uno, LCD 2x16 (I2C), Keypad 4x4, green/red LEDs, 2x 220Ω resistors
+- **Features**: Enter 4-digit code, green LED = valid, red LED = invalid
+- **Status**: Completed
 ## Project Structure
 
 ```

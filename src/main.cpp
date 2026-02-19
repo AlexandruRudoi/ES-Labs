@@ -1,39 +1,26 @@
 #include <Arduino.h>
-#include <string.h>
 
-#include <Led.h>
-#include <Serial.h>
+#include "Lab1_1/Lab1_1.h"
+#include "Lab1_2/Lab1_2.h"
 
-#define LED_PIN 13
-#define CMD_BUFFER_SIZE 20
-
-Led led(LED_PIN);
+// switch active lab here
+#define ACTIVE_LAB 2
 
 void setup()
 {
-  serialInit(9600);
+#if ACTIVE_LAB == 1
+    lab11Setup();
+#elif ACTIVE_LAB == 2
+    lab12Setup();
+#endif
 }
 
 void loop()
 {
-  char command[CMD_BUFFER_SIZE];
-
-  if (serialReadCommand(command, sizeof(command)))
-  {
-
-    if (strcmp(command, "led on") == 0)
-    {
-      led.turnOn();
-      serialPrint("LED is now ON");
-    }
-    else if (strcmp(command, "led off") == 0)
-    {
-      led.turnOff();
-      serialPrint("LED is now OFF");
-    }
-    else
-    {
-      serialPrint("Invalid command! Use 'led on' or 'led off'");
-    }
-  }
+#if ACTIVE_LAB == 1
+    lab11Loop();
+#elif ACTIVE_LAB == 2
+    lab12Loop();
+#endif
 }
+
