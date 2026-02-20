@@ -13,7 +13,8 @@ static Keypad keypad = Keypad(makeKeymap(keyMap), rowPins, colPins, KEYPAD_ROWS,
 
 static FILE keypadStream;
 
-// blocks until a key is pressed
+// blocks until a key is pressed; maps '#' to '\n' so scanf can terminate,
+// and echoes '*' to stdout (LCD) for every real key press
 static int keypadGetc(FILE *stream)
 {
     char key = NO_KEY;
@@ -21,6 +22,11 @@ static int keypadGetc(FILE *stream)
     {
         key = keypad.getKey();
     }
+    if (key == '#')
+    {
+        return '\n';
+    }
+    putchar('*');
     return (int)key;
 }
 

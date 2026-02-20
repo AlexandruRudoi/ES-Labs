@@ -51,14 +51,8 @@ void lab12Loop()
     printf("Enter code:");
     lcdSetCursor(0, 1);
 
-    // read code via STDIO (stdin = keypad)
-    for (int i = 0; i < CODE_LENGTH; i++)
-    {
-        inputCode[i] = (char)getchar();
-        dbg.printVal("[DEBUG] Key pressed: ", inputCode[i]);
-        putchar('*');
-    }
-    inputCode[CODE_LENGTH] = '\0';
+    // read exactly CODE_LENGTH keys via STDIO (stdin = keypad), confirm with '#'
+    scanf("%4s", inputCode);
     dbg.printVal("[DEBUG] Full code entered: ", inputCode);
 
     // validate code and show result on LCD
