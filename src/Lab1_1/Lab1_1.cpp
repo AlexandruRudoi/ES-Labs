@@ -13,6 +13,8 @@ static Led led(LED_PIN);
 void lab11Setup()
 {
     serialInit(9600);
+    serialPrint("System Ready!");
+    serialPrint("Send 'led on' or 'led off'");
 }
 
 void lab11Loop()
