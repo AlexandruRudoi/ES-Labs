@@ -19,8 +19,8 @@
 #define TASK2_REC_MS         50UL
 #define TASK3_REC_MS         10000UL
 
-#define LED_FEEDBACK_TICKS   10    // 10 × 50 ms = 500 ms feedback window
-#define BLINK_HALF_TICKS     2     //  2 × 50 ms = 100 ms half-period
+#define LED_FEEDBACK_TICKS   10    // 10 * 50 ms = 500 ms feedback window
+#define BLINK_HALF_TICKS     2     //  2 * 50 ms = 100 ms half-period
 #define SHORT_PRESS_BLINKS   5     // visible blinks for a short press
 #define LONG_PRESS_BLINKS    10    // visible blinks for a long press
 
@@ -110,7 +110,7 @@ static void task2StatsAndBlink(void)
         blinkHalfTicks = BLINK_HALF_TICKS;
         // LED starts OFF — the state machine below drives every half-cycle.
         // With blinkHalfCycles = N*2 and LED starting OFF:
-        //   toggle 1: ON  | toggle 2: OFF  | ... | toggle N*2: OFF  → N clean blinks.
+        //   toggle 1: ON  | toggle 2: OFF  | ... | toggle N*2: OFF  -> N clean blinks.
         yellowLed.turnOff();
     }
 

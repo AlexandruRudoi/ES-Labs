@@ -7,7 +7,7 @@
 #define BUTTON_LONG_PRESS_MS 500UL
 
 /** @brief Binds the driver to a pin. Call once before buttonUpdate().
- *  @param pin  Arduino pin the button is wired to (other leg → GND). */
+ *  @param pin  Arduino pin the button is wired to (other leg -> GND). */
 void buttonInit(uint8_t pin);
 
 /** @brief Samples the pin and advances the internal edge-detect state machine.
