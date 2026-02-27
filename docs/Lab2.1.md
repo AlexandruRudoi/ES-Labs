@@ -185,6 +185,10 @@ LED current per resistor:
 
 $$I_{LED} = \frac{V_{CC} - V_{LED}}{R} = \frac{5\text{ V} - 2\text{ V}}{220\text{ Ω}} \approx 13.6\text{ mA}$$
 
+### Final Setup
+![Complete circuit assembly](images/lab2.1-setup.jpg)
+*Assembled circuit with Arduino Uno, green/red/yellow LEDs with 220 Ω resistors, and push button*
+
 ---
 
 ## Software Architecture
