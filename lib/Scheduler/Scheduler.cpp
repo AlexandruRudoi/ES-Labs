@@ -19,8 +19,8 @@ void schedulerInit(Task *tasks, uint8_t count)
     }
 
     // Timer2 — CTC mode, 1 ms tick 
-    // Prescaler = 64  →  f_timer = 16 MHz / 64 = 250 kHz
-    // OCR2A = 249     →  period  = 250 / 250 kHz = 1 ms
+    // Prescaler = 64  ->  f_timer = 16 MHz / 64 = 250 kHz
+    // OCR2A = 249     ->  period  = 250 / 250 kHz = 1 ms
     cli();
     TCCR2A  = 0;
     TCCR2B  = 0;
