@@ -14,6 +14,11 @@ Code lock using 4x4 keypad input and LCD display via STDIO library.
 - **Hardware**: Arduino Uno, LCD 2x16 (I2C), Keypad 4x4, green/red LEDs, 2x 220Ω resistors
 - **Features**: Enter 4-digit code, green LED = valid, red LED = invalid
 - **Status**: Completed
+### [Lab 2.1 - Sequential Non-Preemptive Task Scheduling](docs/Lab2.1.md)
+Bare-metal scheduler using Timer2 ISR with button press detection, LED feedback and periodic STDIO reporting.
+- **Hardware**: Arduino Uno, push button, green/red/yellow LEDs, 3x 220Ω resistors
+- **Features**: 1 ms tick scheduler, short/long press classification, provider/consumer signal model
+- **Status**: Completed
 ## Project Structure
 
 ```

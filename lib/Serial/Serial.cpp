@@ -61,8 +61,7 @@ void serialInit(unsigned long baudRate)
     stdout = &serialStream;
     stdin = &serialStream;
 
-    serialPrint("System Ready!");
-    serialPrint("Send 'led on' or 'led off'");
+    // startup messages are printed by each lab's own setup()
 }
 
 bool serialReadCommand(char* buffer, size_t size)
