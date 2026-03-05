@@ -19,6 +19,11 @@ Bare-metal scheduler using Timer2 ISR with button press detection, LED feedback 
 - **Hardware**: Arduino Uno, push button, green/red/yellow LEDs, 3x 220Ω resistors
 - **Features**: 1 ms tick scheduler, short/long press classification, provider/consumer signal model
 - **Status**: Completed
+### [Lab 2.2 - Preemptive Task Scheduling with FreeRTOS](docs/Lab2.2.md)
+FreeRTOS port of Lab 2.1 with preemptive scheduling, binary semaphore for press events and mutex-protected statistics.
+- **Hardware**: Arduino Mega 2560, push button, green/red/yellow LEDs, 3x 220Ω resistors
+- **Features**: `vTaskDelayUntil` periodic tasks, binary semaphore (T1→T2), mutex-protected Stats module (T2/T3)
+- **Status**: Completed
 ## Project Structure
 
 ```
