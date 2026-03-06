@@ -27,7 +27,7 @@
 #define LONG_PRESS_BLINKS 10  // number of visible blinks for long press
 
 // Synchronisation handles
-// xPressEvent: binary semaphore — Task 1 gives, Task 2 takes.
+// xPressEvent: binary semaphore - Task 1 gives, Task 2 takes.
 // Replaces the volatile sig_pressEvent flag from Lab 2.1.
 static SemaphoreHandle_t xPressEvent = NULL;
 
@@ -37,7 +37,7 @@ static Led redLed(RED_LED_PIN);
 static Led yellowLed(YELLOW_LED_PIN);
 
 /*
-   Task 1 — Button monitoring (sequential, vTaskDelayUntil 50 ms)
+   Task 1 - Button monitoring (sequential, vTaskDelayUntil 50 ms)
    PROVIDER:  writes sig_pressDuration, sig_pressIsShort then gives xPressEvent.
    All writes happen BEFORE xSemaphoreGive so Task 2 reads a consistent snapshot.
 */
@@ -60,7 +60,7 @@ static void taskButtonMonitor(void *pvParameters)
             sig_pressDuration = buttonGetDuration();
             sig_pressIsShort = buttonIsShortPress();
 
-            // visual feedback — LED on; Task 1 turns it off after LED_FEEDBACK_MS
+            // visual feedback - LED on; Task 1 turns it off after LED_FEEDBACK_MS
             if (sig_pressIsShort)
             {
                 greenLed.turnOn();
@@ -86,11 +86,11 @@ static void taskButtonMonitor(void *pvParameters)
 }
 
 /*
-   Task 2 — Statistics update + yellow LED blink   (event-driven)
+   Task 2 - Statistics update + yellow LED blink   (event-driven)
    CONSUMER of xPressEvent from Task 1.
    PRODUCER: calls statsSetPress() (mutex-protected setter).
-   Blocks on xSemaphoreTake(portMAX_DELAY) — wakes only when T1 signals.
-   Uses vTaskDelay inside blink loop — simple and readable, no state machine
+   Blocks on xSemaphoreTake(portMAX_DELAY) - wakes only when T1 signals.
+   Uses vTaskDelay inside blink loop - simple and readable, no state machine
    needed because FreeRTOS yields the CPU during each delay.
 */
 static void taskStatsAndBlink(void *pvParameters)
@@ -123,15 +123,15 @@ static void taskStatsAndBlink(void *pvParameters)
 }
 
 /*
-   Task 3 — Periodic report (sequential, vTaskDelayUntil 10 000 ms)
-   CONSUMER: calls statsGetAndReset() — reads + zeros counters atomically.
+   Task 3 - Periodic report (sequential, vTaskDelayUntil 10 000 ms)
+   CONSUMER: calls statsGetAndReset() - reads + zeros counters atomically.
    Reports via printf (STDIO redirected to UART by serialInit).
 */
 static void taskReport(void *pvParameters)
 {
     (void)pvParameters;
 
-    // offset = 10 ms — ensures T1 fires at least once before first report
+    // offset = 10 ms - ensures T1 fires at least once before first report
     vTaskDelay(pdMS_TO_TICKS(10));
 
     const TickType_t period = pdMS_TO_TICKS(TASK3_PERIOD_MS);
