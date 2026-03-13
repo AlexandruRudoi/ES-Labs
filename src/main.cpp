@@ -4,8 +4,9 @@
 #include "Lab1_2/Lab1_2.h"
 #include "Lab2_1/Lab2_1.h"
 #include "Lab2_2/Lab2_2.h"
+#include "Lab3_1/Lab3_1.h"
 
-#define ACTIVE_LAB 4
+#define ACTIVE_LAB 5
 
 void setup()
 {
@@ -17,6 +18,8 @@ void setup()
     lab21Setup();
 #elif ACTIVE_LAB == 4
     lab22Setup();
+#elif ACTIVE_LAB == 5
+    lab31Setup();
 #endif
 }
 
@@ -30,5 +33,7 @@ void loop()
     lab21Loop();
 #elif ACTIVE_LAB == 4
     lab22Loop();
+#elif ACTIVE_LAB == 5
+    lab31Loop();
 #endif
 }

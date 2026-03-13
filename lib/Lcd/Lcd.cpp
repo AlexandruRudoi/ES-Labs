@@ -26,22 +26,11 @@ static int lcdPutc(char c, FILE *stream)
     }
     else
     {
-        lcd.print(c);
-        cursorCol++;
-
-        // wrap to next row if past last column
-        if (cursorCol >= LCD_COLS)
+        // silently ignore characters that would go past the last column
+        if (cursorCol < LCD_COLS)
         {
-            cursorRow++;
-            cursorCol = 0;
-
-            if (cursorRow >= LCD_ROWS)
-            {
-                lcd.clear();
-                cursorRow = 0;
-            }
-
-            lcd.setCursor(cursorCol, cursorRow);
+            lcd.print(c);
+            cursorCol++;
         }
     }
 

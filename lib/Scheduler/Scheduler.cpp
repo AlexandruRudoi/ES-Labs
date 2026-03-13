@@ -1,5 +1,9 @@
 #include "Scheduler.h"
 
+// When FreeRTOS is present it owns Timer2; when Tone (buzzer) is used it also
+// needs Timer2.  Disable the cooperative-scheduler Timer2 ISR in both cases.
+#if !defined(USE_FREERTOS)
+
 static Task    *s_tasks     = NULL;
 static uint8_t  s_taskCount = 0;
 
@@ -18,7 +22,7 @@ void schedulerInit(Task *tasks, uint8_t count)
         s_tasks[i].ready = false;
     }
 
-    // Timer2 — CTC mode, 1 ms tick 
+    // Timer2 — CTC mode, 1 ms tick
     // Prescaler = 64  ->  f_timer = 16 MHz / 64 = 250 kHz
     // OCR2A = 249     ->  period  = 250 / 250 kHz = 1 ms
     cli();
@@ -61,3 +65,9 @@ ISR(TIMER2_COMPA_vect)
 {
     schedulerTick();
 }
+
+#else // USE_FREERTOS — provide no-op stubs so callers still link
+
+void schedulerInit(Task *tasks, uint8_t count) { (void)tasks; (void)count; }
+
+#endif // !USE_FREERTOS
