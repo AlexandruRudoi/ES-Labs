@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "author": "Alexander Rudoi",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-breadboard", "id": "bb1", "top": 227.4, "left": -74, "attrs": {} },
+    { "type": "wokwi-arduino-mega", "id": "mega", "top": -85.8, "left": -118.8, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 236.4,
+      "left": -44.2,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 311.15,
+      "left": -153.6,
+      "attrs": { "value": "220" }
+    },
+    { "type": "wokwi-led", "id": "led2", "top": 236.4, "left": 23, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 359.15,
+      "left": -153.6,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": 127.2,
+      "left": 165,
+      "attrs": { "volume": "0.1" }
+    },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": 153.8, "left": 355.2, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": 467.2,
+      "left": 149.6,
+      "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 295,
+      "left": 50,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "loadLed",
+      "top": 100,
+      "left": 530,
+      "attrs": { "color": "yellow", "label": "Motor/Load" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 100,
+      "left": 470,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "bb1:tp.1", "mega:5V", "red", [ "h-0.8", "v-114.9", "h74.5" ] ],
+    [ "bb1:tn.1", "mega:GND.2", "#8f4814", [ "v-48.1", "h85.6", "v-102.9" ] ],
+
+    [ "mega:4", "r1:1", "green", [] ],
+    [ "r1:2", "led1:A", "green", [] ],
+    [ "led1:C", "bb1:tn.3", "black", [] ],
+
+    [ "mega:5", "r2:1", "red", [] ],
+    [ "r2:2", "led2:A", "red", [] ],
+    [ "led2:C", "bb1:tn.8", "black", [] ],
+
+    [ "bz1:1", "bb1:26t.a", "green", [ "v0" ] ],
+    [ "bb1:28t.a", "bz1:2", "green", [ "v0" ] ],
+    [ "bb1:28t.e", "bb1:tn.25", "#8f4814", [ "h28.8", "v-67.1" ] ],
+    [ "bb1:26t.e", "mega:8", "green", [ "v9.6", "h124.8", "v-422.4", "h-258.6" ] ],
+
+    [ "relay1:VCC", "bb1:tp.24", "red", [ "h0" ] ],
+    [ "relay1:GND", "bb1:tn.24", "black", [ "h0" ] ],
+    [ "relay1:IN", "mega:3", "gold", [ "h-67.2", "v-297.8", "h-178.3" ] ],
+
+    [ "lcd1:GND", "bb1:tn.15", "black", [ "h0" ] ],
+    [ "lcd1:VCC", "bb1:tp.14", "red", [ "h0" ] ],
+    [ "lcd1:SDA", "mega:20", "green", [ "h0" ] ],
+    [ "lcd1:SCL", "mega:21", "green", [ "h0" ] ],
+
+    [ "mega:2", "bb1:15t.a", "blue", [] ],
+    [ "bb1:17t.e", "bb1:tn.17", "black", [] ],
+
+    [ "relay1:COM", "bb1:tp.28", "red", [] ],
+    [ "relay1:NC", "r3:1", "orange", [] ],
+    [ "r3:2", "loadLed:A", "orange", [] ],
+    [ "loadLed:C", "bb1:tn.30", "black", [] ]
+  ],
+  "dependencies": {}
+}
