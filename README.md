@@ -24,6 +24,21 @@ FreeRTOS port of Lab 2.1 with preemptive scheduling, binary semaphore for press 
 - **Hardware**: Arduino Mega 2560, push button, green/red/yellow LEDs, 3x 220Ω resistors
 - **Features**: `vTaskDelayUntil` periodic tasks, binary semaphore (T1→T2), mutex-protected Stats module (T2/T3)
 - **Status**: Completed
+### [Lab 3.1 - Binary Signal Conditioning](docs/Lab3.1.md)
+Binary conditioning pipeline (saturation → hysteresis → debounce) for DHT11 and NTC sensors under FreeRTOS.
+- **Hardware**: Arduino Mega 2560, DHT11, NTC 10 kΩ, green/red LEDs, passive buzzer, LCD I2C
+- **Features**: BinaryConditioner module, 3-task FreeRTOS pipeline, LCD + Serial display
+- **Status**: Completed
+### [Lab 3.2 - Analog Signal Conditioning](docs/Lab3.2.md)
+Full analog conditioning pipeline (saturation → median filter → EMA → binary alert) for DHT11, NTC and LDR sensors.
+- **Hardware**: Arduino Mega 2560, DHT11, NTC 10 kΩ, LDR, green/red LEDs, passive buzzer, LCD I2C
+- **Features**: MedianFilter + WeightedAverage modules, multi-stage pipeline, Serial Plotter output
+- **Status**: Completed
+### [Lab 4.1 - Binary Actuator Control](docs/Lab4.1.md)
+Binary actuator control via relay with output debounce conditioning under FreeRTOS.
+- **Hardware**: Arduino Mega 2560, 5 V relay module, green/red LEDs, passive buzzer, LCD I2C
+- **Features**: Relay + OutputDebounce modules, serial command interface (on/off/toggle/status), 3-task FreeRTOS pipeline
+- **Status**: Completed
 ## Project Structure
 
 ```
