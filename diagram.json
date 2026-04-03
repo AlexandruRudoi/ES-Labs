@@ -43,24 +43,59 @@
       "attrs": { "pins": "i2c" }
     },
     {
-      "type": "wokwi-pushbutton",
-      "id": "btn1",
-      "top": 295,
-      "left": 50,
-      "attrs": { "color": "blue" }
-    },
-    {
       "type": "wokwi-led",
       "id": "loadLed",
       "top": 100,
       "left": 530,
-      "attrs": { "color": "yellow", "label": "Motor/Load" }
+      "attrs": { "color": "yellow", "label": "Relay Load" }
     },
     {
       "type": "wokwi-resistor",
       "id": "r3",
       "top": 100,
       "left": 470,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "motorLed",
+      "top": 100,
+      "left": 680,
+      "attrs": { "color": "blue", "label": "Motor PWM" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": 100,
+      "left": 620,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "dirALed",
+      "top": 170,
+      "left": 620,
+      "attrs": { "color": "white", "label": "IN1 (FWD)" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r5",
+      "top": 170,
+      "left": 560,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "dirBLed",
+      "top": 170,
+      "left": 740,
+      "attrs": { "color": "white", "label": "IN2 (REV)" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r6",
+      "top": 170,
+      "left": 680,
       "attrs": { "value": "220" }
     }
   ],
@@ -90,13 +125,22 @@
     [ "lcd1:SDA", "mega:20", "green", [ "h0" ] ],
     [ "lcd1:SCL", "mega:21", "green", [ "h0" ] ],
 
-    [ "mega:2", "bb1:15t.a", "blue", [] ],
-    [ "bb1:17t.e", "bb1:tn.17", "black", [] ],
-
     [ "relay1:COM", "bb1:tp.28", "red", [] ],
     [ "relay1:NC", "r3:1", "orange", [] ],
     [ "r3:2", "loadLed:A", "orange", [] ],
-    [ "loadLed:C", "bb1:tn.30", "black", [] ]
+    [ "loadLed:C", "bb1:tn.30", "black", [] ],
+
+    [ "mega:6", "r4:1", "cyan", [] ],
+    [ "r4:2", "motorLed:A", "cyan", [] ],
+    [ "motorLed:C", "bb1:tn.35", "black", [] ],
+
+    [ "mega:7", "r5:1", "white", [] ],
+    [ "r5:2", "dirALed:A", "white", [] ],
+    [ "dirALed:C", "bb1:tn.38", "black", [] ],
+
+    [ "mega:9", "r6:1", "gray", [] ],
+    [ "r6:2", "dirBLed:A", "gray", [] ],
+    [ "dirBLed:C", "bb1:tn.42", "black", [] ]
   ],
   "dependencies": {}
 }
