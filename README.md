@@ -39,6 +39,16 @@ Binary actuator control via relay with output debounce conditioning under FreeRT
 - **Hardware**: Arduino Mega 2560, 5 V relay module, green/red LEDs, passive buzzer, LCD I2C
 - **Features**: Relay + OutputDebounce modules, serial command interface (on/off/toggle/status), 3-task FreeRTOS pipeline
 - **Status**: Completed
+### [Lab 4.2 - Analog Actuator Control](docs/Lab4.2.md)
+PWM-based analog actuator control with signal conditioning and serial command interface under FreeRTOS.
+- **Hardware**: Arduino Mega 2560, L293D H-bridge, DC motor, green/red LEDs, passive buzzer, LCD I2C
+- **Features**: MotorDriver module, PWM speed control, serial commands (speed/up/down/stop/status), 4-task FreeRTOS pipeline
+- **Status**: Completed
+### [Lab 5.1 - ON-OFF Temperature Control with Hysteresis](docs/Lab5.1.md)
+ON-OFF temperature control with hysteresis dead band, two-speed fan zones, and runtime parameter tuning under FreeRTOS.
+- **Hardware**: Arduino Mega 2560, DHT11, L293D H-bridge, DC motor, green/red LEDs, passive buzzer, LCD I2C
+- **Features**: Hysteresis controller, two-speed zones (50%/100%), serial commands (set/hyst/status), FreeRTOS queue + mutex, Serial Plotter output
+- **Status**: Completed
 ## Project Structure
 
 ```
@@ -46,6 +56,7 @@ ES-Labs/
 ├── lib/          # reusable peripheral modules
 ├── src/          # main application code
 ├── docs/         # lab documentation
+├── report/       # LaTeX lab reports
 └── include/      # global headers
 ```
 
