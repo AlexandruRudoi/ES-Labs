@@ -24,7 +24,7 @@
 #define T3_PERIOD_MS    500UL   // display + plotter
 
 // Default ON-OFF hysteresis parameters
-#define DEFAULT_SETPOINT    28.0f   // desired temperature (C)
+#define DEFAULT_SETPOINT    20.0f   // desired temperature (C)
 #define DEFAULT_HYSTERESIS   1.5f   // +/- band around setpoint
 
 // Motor speed zones
@@ -339,18 +339,24 @@ static void taskDisplay(void *pvParameters)
         }
         page ^= 1;
 
-        // Serial Plotter format: SetPoint, Temperature, Output
-        Serial.print(F("SetPoint:"));
+        // Serial Plotter (Teleplot format: >name:value,name:value,...)
+        int tPlot = (int)sr.temperature;
+        int tPlotF = ((int)(sr.temperature * 10.0f)) % 10;
+        if (tPlotF < 0) tPlotF = -tPlotF;
+
+        Serial.print(F(">Temp:"));
+        Serial.print(tPlot);
+        Serial.print('.');
+        Serial.print(tPlotF);
+        Serial.print(F(",SetPoint:"));
         Serial.print((int)cr.setpoint);
-        Serial.print(F(" Temp:"));
-        Serial.print(sr.temperature, 1);
-        Serial.print(F(" V_on:"));
+        Serial.print(F(",V_on:"));
         Serial.print((int)cr.hystHigh);
-        Serial.print(F(" V_off:"));
+        Serial.print(F(",V_off:"));
         Serial.print((int)cr.hystLow);
-        Serial.print(F(" Fan:"));
+        Serial.print(F(",Fan:"));
         Serial.print(cr.motorOn ? 1 : 0);
-        Serial.print(F(" Speed:"));
+        Serial.print(F(",Speed:"));
         Serial.println(cr.speedPercent);
 
         vTaskDelay(pdMS_TO_TICKS(T3_PERIOD_MS));
