@@ -169,7 +169,7 @@ static void taskCommandParser(void *pvParameters)
                         xQueueSend(s_speedCmdQueue, &val, 0);
                     }
                     else
-                        Serial.println(F("Usage: speed 0-100"));
+                        Serial.println(F("Usage: speed -100 to 100"));
                 }
                 /* single-word shortcuts */
                 else if (strcmp(cmd, "stop") == 0)
@@ -285,9 +285,9 @@ static void taskMotorCondition(void *pvParameters)
         float newSpeed;
         while (xQueueReceive(s_speedCmdQueue, &newSpeed, 0) == pdTRUE)
         {
-            // Saturate 0-100
-            if (newSpeed < 0.0f)   newSpeed = 0.0f;
-            if (newSpeed > 100.0f) newSpeed = 100.0f;
+            // Saturate -100 to 100
+            if (newSpeed < -100.0f) newSpeed = -100.0f;
+            if (newSpeed >  100.0f) newSpeed =  100.0f;
             s_rawSetpoint = newSpeed;
         }
 
@@ -297,13 +297,13 @@ static void taskMotorCondition(void *pvParameters)
         rampSetTarget(&s_ramp, smooth);
         float ramped = rampUpdate(&s_ramp, dt);
 
-        motorSetPercent(ramped);
+        motorSetPercentSigned(ramped);
 
         xSemaphoreTake(s_reportMutex, portMAX_DELAY);
         s_motorRpt.rawSetpoint = s_rawSetpoint;
         s_motorRpt.filtered    = smooth;
         s_motorRpt.ramped      = ramped;
-        s_motorRpt.pwmPercent  = motorGetPercent();
+        s_motorRpt.pwmPercent  = motorGetPercentSigned();
         xSemaphoreGive(s_reportMutex);
 
         vTaskDelayUntil(&xLastWake, period);

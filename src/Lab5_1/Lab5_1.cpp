@@ -11,6 +11,7 @@
 #include <Lcd.h>
 #include <Led.h>
 #include <Buzzer.h>
+#include <Relay.h>
 #include <MotorDriver.h>
 #include <DhtSensor.h>
 
@@ -24,7 +25,7 @@
 #define T3_PERIOD_MS    500UL   // display + plotter
 
 // Default ON-OFF hysteresis parameters
-#define DEFAULT_SETPOINT    20.0f   // desired temperature (C)
+#define DEFAULT_SETPOINT    30.0f   // desired temperature (C)
 #define DEFAULT_HYSTERESIS   1.5f   // +/- band around setpoint
 
 // Motor speed zones
@@ -248,7 +249,9 @@ static void taskController(void *pvParameters)
             s_motorState = false;
         // else: keep current state (hysteresis band)
 
-        // Apply motor output with speed zones
+        // Apply motor + relay output (mutually exclusive)
+        // Motor ON  -> fan cooling  -> relay OFF (heater disabled)
+        // Motor OFF -> fan stopped  -> relay ON  (heater enabled)
         uint8_t speed = 0;
         if (s_motorState)
         {
@@ -258,11 +261,13 @@ static void taskController(void *pvParameters)
                 speed = SPEED_LOW;
 
             motorSetPercent((float)speed);
+            relayOff();   // cut heater while cooling
         }
         else
         {
             speed = 0;
             motorStop();
+            relayOn();    // resume heating when fan is off
         }
 
         // LED indicators
@@ -319,9 +324,9 @@ static void taskDisplay(void *pvParameters)
             printf("T:%d.%d SP:%dC  ",
                    tInt, tFrac, (int)cr.setpoint);
             lcdSetCursor(0, 1);
-            printf("Fan:%-3s Spd:%3d%%",
+            printf("Fan:%-3s Htr:%-3s  ",
                    cr.motorOn ? "ON" : "OFF",
-                   cr.speedPercent);
+                   cr.motorOn ? "OFF" : "ON");
         }
         else
         {
@@ -373,9 +378,11 @@ void lab51Setup(void)
     redLed   = new Led(RED_LED_PIN);
 
     buzzerInit();
+    relayInit();
     motorInit();
     dhtInit();
 
+    relayOn();          // heater ON by default (motor initially OFF)
     redLed->turnOn();   // motor initially OFF
 
     // Init shared reports

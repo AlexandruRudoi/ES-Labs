@@ -1,24 +1,36 @@
 #include "MotorDriver.h"
 
-static uint8_t s_pwm = 0;
+static uint8_t s_pwm        = 0;
+static float   s_pctSigned  = 0.0f;
 
 void motorInit(void)
 {
+    // disable PWM output first
     pinMode(MOTOR_PIN_ENA, OUTPUT);
+    digitalWrite(MOTOR_PIN_ENA, LOW);
+
+    // direction pins off until motor is actually started
     pinMode(MOTOR_PIN_IN1, OUTPUT);
     pinMode(MOTOR_PIN_IN2, OUTPUT);
-
-    // forward direction by default
-    digitalWrite(MOTOR_PIN_IN1, HIGH);
+    digitalWrite(MOTOR_PIN_IN1, LOW);
     digitalWrite(MOTOR_PIN_IN2, LOW);
 
-    analogWrite(MOTOR_PIN_ENA, 0);
     s_pwm = 0;
 }
 
 void motorSetSpeed(uint8_t pwm)
 {
     s_pwm = pwm;
+    if (s_pwm > 0)
+    {
+        digitalWrite(MOTOR_PIN_IN1, HIGH);
+        digitalWrite(MOTOR_PIN_IN2, LOW);
+    }
+    else
+    {
+        digitalWrite(MOTOR_PIN_IN1, LOW);
+        digitalWrite(MOTOR_PIN_IN2, LOW);
+    }
     analogWrite(MOTOR_PIN_ENA, s_pwm);
 }
 
@@ -33,6 +45,8 @@ void motorStop(void)
 {
     s_pwm = 0;
     analogWrite(MOTOR_PIN_ENA, 0);
+    digitalWrite(MOTOR_PIN_IN1, LOW);
+    digitalWrite(MOTOR_PIN_IN2, LOW);
 }
 
 void motorBrake(void)
@@ -48,7 +62,39 @@ uint8_t motorGetSpeed(void)
     return s_pwm;
 }
 
+void motorSetPercentSigned(float pct)
+{
+    if (pct < -100.0f) pct = -100.0f;
+    if (pct >  100.0f) pct =  100.0f;
+    s_pctSigned = pct;
+
+    float absPct = (pct < 0.0f) ? -pct : pct;
+    s_pwm = (uint8_t)(absPct * 2.55f + 0.5f);
+
+    if (s_pwm == 0)
+    {
+        digitalWrite(MOTOR_PIN_IN1, LOW);
+        digitalWrite(MOTOR_PIN_IN2, LOW);
+    }
+    else if (pct > 0.0f)
+    {
+        digitalWrite(MOTOR_PIN_IN1, HIGH);
+        digitalWrite(MOTOR_PIN_IN2, LOW);
+    }
+    else
+    {
+        digitalWrite(MOTOR_PIN_IN1, LOW);
+        digitalWrite(MOTOR_PIN_IN2, HIGH);
+    }
+    analogWrite(MOTOR_PIN_ENA, s_pwm);
+}
+
 float motorGetPercent(void)
 {
     return (float)s_pwm / 2.55f;
+}
+
+float motorGetPercentSigned(void)
+{
+    return s_pctSigned;
 }

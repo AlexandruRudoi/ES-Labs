@@ -4,13 +4,15 @@
  *
  *  Function            | Notes
  *  ------------------- | -----------------------------------------------
- *  motorInit()         | configures ENA, IN1, IN2 pins; motor stopped
- *  motorSetSpeed()     | set PWM duty 0-255
- *  motorSetPercent()   | set speed 0-100 %
- *  motorStop()         | coast stop (ENA LOW)
- *  motorBrake()        | active brake (IN1=IN2=HIGH)
- *  motorGetSpeed()     | current PWM value (0-255)
- *  motorGetPercent()   | current speed in percent (0-100)
+ *  motorInit()              | configures ENA, IN1, IN2 pins; motor stopped
+ *  motorSetSpeed()          | set PWM duty 0-255 (forward only)
+ *  motorSetPercent()        | set speed 0-100 % (forward only)
+ *  motorSetPercentSigned()  | set speed -100 to +100 %; negative = reverse
+ *  motorStop()              | coast stop (ENA LOW)
+ *  motorBrake()             | active brake (IN1=IN2=HIGH)
+ *  motorGetSpeed()          | current PWM value (0-255)
+ *  motorGetPercent()        | current speed in percent (0-100)
+ *  motorGetPercentSigned()  | current speed -100 to +100 % (signed)
  */
 
 #ifndef MOTOR_DRIVER_H
@@ -25,9 +27,11 @@
 void    motorInit(void);
 void    motorSetSpeed(uint8_t pwm);
 void    motorSetPercent(float pct);
+void    motorSetPercentSigned(float pct);
 void    motorStop(void);
 void    motorBrake(void);
 uint8_t motorGetSpeed(void);
 float   motorGetPercent(void);
+float   motorGetPercentSigned(void);
 
 #endif
