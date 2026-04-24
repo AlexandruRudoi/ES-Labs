@@ -18,7 +18,7 @@
 #include <Arduino.h>
 
 /** Arduino digital pin the passive buzzer positive leg is connected to. */
-#define BUZZER_PIN          8
+#define BUZZER_PIN          11
 
 /** Default alert tone frequency in Hz. */
 #define BUZZER_FREQ_HZ      1000U
